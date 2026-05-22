@@ -1,0 +1,9 @@
+.git
+logs.db
+logs.db-*
+logs.db.bak-*
+*.db
+*.db-shm
+*.db-wal
+tmp
+vendor

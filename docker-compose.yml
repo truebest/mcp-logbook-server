@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  mcp-logbook-server:
+    image: mcp-logbook-server:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mcp-logbook-server
+    restart: unless-stopped
+
+    # Порты:
+    # 8080 - HTTP web UI + read-only inspection API
+    # 8081 - MCP Streamable HTTP interface (/v1/mcp)
+    # 8082 - reserved/optional
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
+
+    # Логи и конфиг лежат рядом с docker-compose.yml
+    volumes:
+      - ./logs.db:/root/logs.db
+      - ./config.yaml:/root/config.yaml:ro
+
+    working_dir: /root
+    command: ["./server", "--config", "/root/config.yaml"]
